@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script>
+		window.onload = function(){
+			var cvs = document.getElementById("cvs");
+			var ctx = cvs.getContext("2d");
+			
+			var total = 100;
+			var data = [30, 17, 40]; 
+			var speed = 10;
+			
+			// 生成每段图形的目标数据
+			var targets = [];
+			var colors = ["purple", "orange", "tomato", "teal", "blue", "yellow"];
+			var start = 0;
+			for (var i = 0; i < data.length; i++) {
+				var length = data[i] / total * 2 * Math.PI;
+				var target = {"start": start, "length": length, "color": colors[i]};
+				start += length;
+				targets.push(target);
+			}
+
+			var _interval = setInterval(draw, 100);
+			
+			var count = 0;
+			// 绘制一帧
+			function draw(){
+				// 清除画布
+				ctx.clearRect(0, 0, cvs.width, cvs.height)
+				
+				// 绘制当前帧
+				for (var i = 0; i < targets.length; i++) {
+					var start = targets[i].start * count / speed;
+					var length = targets[i].length * count / speed;
+					var item = {start: start, length: length, color: targets[i].color}
+					section(item);
+				}
+				
+				count++;
+				
+				if (count > speed) {
+					clearInterval(_interval);
+				}
+			}
+
+			// 绘制一个弧线
+			function section(item) { // item= {start: 0, length: Math.PI / 3, color: "purple"}
+				ctx.beginPath();
+				
+				ctx.lineWidth = 15;
+				ctx.strokeStyle = item.color;
+				
+				ctx.arc(200, 200, 200 - ctx.lineWidth / 2, item.start, item.start + item.length);
+				
+				ctx.stroke();
+			}
+		};
+		</script>
+	</head>
+	<body>
+		<canvas id="cvs" width="400" height="400"  style="background-color: gray;">
+			您的浏览器不支持Canvas.
+		</canvas>
+	</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery-3.1.0.js" ></script>
+		<style>
+		ul, li {
+			padding: 0px;
+			margin: 0px;
+			list-style: none;
+		}
+		.gallary {
+			width: 980px;
+			height: 500px;
+		}
+		.item {
+			width: 196px;
+			height: 100px;
+			background-size: cover;
+			float: left;
+			/*position: absolute;
+			left: 0px;
+			top: 0px;*/
+		}
+		.center {
+			position: absolute;
+			left: 0px;
+			right: 0px;
+			top: 0px;
+			bottom: 0px;
+			margin: auto;
+		}
+		
+		
+		</style>
+		<script>
+		$(function(){
+			var collum = 5;
+			
+			var gallary = $(".gallary");
+			
+			for (var i = 0; i < 25; i++) {
+				$('<li><div class="item"></div></li>')
+				.find("div")
+				.css("background-image", "url(images/"+ i +".jpg)")
+				.end()
+				.appendTo(gallary)
+			}
+			$("#btnShowBigPicture").click(function(){
+				$(".gallary .item")
+					.css({
+						"background-image": "url(images/21.jpg)",
+						"background-size": "auto"})
+					
+					.each(function(i){
+						var r = parseInt(i / collum);
+						var c = i % collum;
+						
+						var rate = 100 / (collum - 1)
+						var x = rate * c;
+						var y = rate * r;
+						$(this).css("background-position", x + "% "+ y +"%");
+					});
+			});
+			
+			$("#btnHide").click(function(){
+				$(".gallary .item").each(function(i){
+					
+//					$(this)
+//					.animate({"opacity": "0.05"}, Math.random()*3000, "swing")
+//					.delay(3000)
+//					.animate({"opacity": "1"}, Math.random()*3000, "swing")
+
+					$(this)
+					.delay(100*i)
+					.animate({"opacity": "0.05"}, 100, "swing");
+				});
+			});
+		});
+		</script>
+	</head>
+	<body>
+		<input id="btnShowBigPicture" type="button" value="showBigPicture" /> 
+		<input id="btnHide" type="button" value="hide" /> 
+		<ul class="gallary center">
+			<!--<li><div class="item" style="background-image: url(images/0.jpg);"></div></li>-->
+		</ul>
+	</body>
+</html>
